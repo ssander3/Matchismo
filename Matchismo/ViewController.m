@@ -14,6 +14,8 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *matchMode;
+@property (weak, nonatomic) IBOutlet UITextField *history;
 @end
 
 @implementation ViewController
@@ -23,6 +25,7 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
+        _game.matchMode = self.matchMode.selectedSegmentIndex+1;
     }
     return _game;
 }
@@ -42,11 +45,21 @@
 - (IBAction)redrawButton:(id)sender {
     // destroy the current game and update the UI
     self.game = nil;
+    self.game.matchMode = self.matchMode.selectedSegmentIndex+1;
     [self updateUI];
+}
+
+- (IBAction)changeMatchMode:(UISegmentedControl *)sender
+{
+    self.game.matchMode = sender.selectedSegmentIndex+1;
 }
 
 - (void)updateUI
 {
+    // Update Match Mode
+    self.matchMode.enabled = !self.game.isInGame;
+    
+    // Update Cards
     for (UIButton *cardButton in self.cardButtons) {
         NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
@@ -55,7 +68,12 @@
         [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
     }
+    
+    // Update Score
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
+    
+    // Update History text
+    self.history.text = [[self.game matchHistory] lastObject];
 }
 
 - (NSString *)titleForCard:(Card *)card
