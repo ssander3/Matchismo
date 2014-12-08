@@ -187,11 +187,18 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="0.0" translatesAutoresizingMaskIntoConstraints="NO" id="mtG-t6-T3Y">
+                                <rect key="frame" x="14" y="431" width="292" height="31"/>
+                                <connections>
+                                    <action selector="scrubHistory:" destination="vXZ-lx-hvc" eventType="valueChanged" id="Wna-cp-Agb"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="history" destination="BnI-QV-FZL" id="XjH-sb-7Wi"/>
+                        <outlet property="historySlider" destination="mtG-t6-T3Y" id="R2g-xT-atK"/>
                         <outlet property="matchMode" destination="o1b-xT-7Qq" id="BRQ-SD-OxP"/>
                         <outlet property="scoreLabel" destination="ZzL-Hx-Kj6" id="0cR-z1-1lT"/>
                         <outletCollection property="cardButtons" destination="qiU-gC-pr4" id="lLh-1A-qUb"/>

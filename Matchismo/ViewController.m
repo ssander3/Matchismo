@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *matchMode;
+@property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @property (weak, nonatomic) IBOutlet UITextField *history;
 @end
 
@@ -74,6 +75,22 @@
     
     // Update History text
     self.history.text = [[self.game matchHistory] lastObject];
+    
+    // Update History Slider
+    [self.historySlider setMaximumValue:[self.game matchHistory].count];
+    [self.historySlider setValue:[self.game matchHistory].count];
+}
+
+- (IBAction)scrubHistory:(UISlider *)sender
+{
+    NSUInteger historyCount = [self.game matchHistory].count;
+    if (historyCount)
+    {
+        int indexValue = [self.historySlider value];
+        if (indexValue < historyCount) {
+            self.history.text = [[self.game matchHistory] objectAtIndex:indexValue];
+        }
+    }
 }
 
 - (NSString *)titleForCard:(Card *)card
