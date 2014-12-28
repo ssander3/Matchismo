@@ -70,7 +70,7 @@ static const int ALL_MATCH_BONUS = 2;
 
 + (NSArray *)validSuits
 {
-    return @[@"♥︎",@"♠︎",@"♦︎",@"♣︎"];
+    return @[@"♥",@"♠",@"♦",@"♣"];
 }
 
 - (void)setSuit:(NSString *)suit
