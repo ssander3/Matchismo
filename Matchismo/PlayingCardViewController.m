@@ -20,6 +20,18 @@
     return [[PlayingCardDeck alloc] init];
 }
 
+- (UIColor *)colorForCard:(Card *)card
+{
+    // if it is a heart or diamond set the color to red
+    if ([[card contents] containsString:@"♦"] || [[card contents] containsString:@"♥"]) {
+        return [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1];
+    }
+    else {
+        // otherwise set the color to black
+        return [UIColor colorWithWhite:0.0f alpha:1];
+    }
+}
+
 /*
 #pragma mark - Navigation
 

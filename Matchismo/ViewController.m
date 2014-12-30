@@ -16,9 +16,12 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *matchMode;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @property (weak, nonatomic) IBOutlet UITextField *history;
+@property (strong, nonatomic) NSMutableArray *flipHistory;
 @end
 
 @implementation ViewController
+
+#pragma mark - properties
 
 - (CardMatchingGame *)game
 {
@@ -30,10 +33,20 @@
     return _game;
 }
 
+- (NSMutableArray *)flipHistory
+{
+    if (!_flipHistory) {
+        _flipHistory = [NSMutableArray array];
+    }
+    return _flipHistory;
+}
+
 - (Deck *)createDeck    // abstract
 {
     return nil;
 }
+
+#pragma mark - IBActions
 
 - (IBAction)touchCardButton:(UIButton *)sender
 {
@@ -44,6 +57,7 @@
 
 - (IBAction)redrawButton:(id)sender {
     // destroy the current game and update the UI
+    self.flipHistory = nil;
     self.game = nil;
     self.game.matchMode = self.matchMode.selectedSegmentIndex+1;
     [self updateUI];
@@ -53,6 +67,20 @@
 {
     self.game.matchMode = sender.selectedSegmentIndex+1;
 }
+
+- (IBAction)scrubHistory:(UISlider *)sender
+{
+    NSUInteger historyCount = self.flipHistory.count;
+    if (historyCount)
+    {
+        int indexValue = [self.historySlider value];
+        if (indexValue < historyCount) {
+            self.history.text = [self.flipHistory objectAtIndex:indexValue];
+        }
+    }
+}
+
+#pragma mark - UI Update
 
 - (void)updateUI
 {
@@ -73,22 +101,30 @@
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
     
     // Update History text
-    self.history.text = [[self.game matchHistory] lastObject];
+    NSString *historyText = @"";
     
-    // Update History Slider
-    [self.historySlider setMaximumValue:[self.game matchHistory].count];
-    [self.historySlider setValue:[self.game matchHistory].count];
-}
-
-- (IBAction)scrubHistory:(UISlider *)sender
-{
-    NSUInteger historyCount = [self.game matchHistory].count;
-    if (historyCount)
-    {
-        int indexValue = [self.historySlider value];
-        if (indexValue < historyCount) {
-            self.history.text = [[self.game matchHistory] objectAtIndex:indexValue];
+    if ([self.game.lastCardsChosen count]) {
+        NSMutableArray *cardContents = [NSMutableArray array];
+        for (Card *card in self.game.lastCardsChosen) {
+            [cardContents addObject:card.contents];
         }
+        historyText = [cardContents componentsJoinedByString:@" "];
+    }
+    
+    // Build the history string based on the cards and score
+    if (self.game.lastScore > 0) {
+        historyText = [NSString stringWithFormat:@"Matched %@ for %ld points!", historyText, (long)self.game.lastScore];
+    }
+    else if (self.game.lastScore < 0) {
+        historyText = [NSString stringWithFormat:@"%@ don't match! %ld point penalty", historyText, (long)self.game.lastScore];
+    }
+    self.history.text = historyText;
+    
+    if (![historyText isEqualToString:@""] && ![[self.flipHistory lastObject] isEqualToString:historyText]) {
+        [self.flipHistory addObject:historyText];
+        // Update History Slider
+        [self.historySlider setMaximumValue:self.flipHistory.count];
+        [self.historySlider setValue:self.flipHistory.count];
     }
 }
 
@@ -102,15 +138,9 @@
     return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
 }
 
-- (UIColor *)colorForCard:(Card *)card
+- (UIColor *)colorForCard:(Card *)card // If you need custom colors override this function
 {
-    // if it is a heart or diamond set the color to red
-    if ([[card contents] containsString:@"♦︎"] || [[card contents] containsString:@"♥︎"]) {
-        return [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1];
-    }
-    else {
-        // otherwise set the color to black
-        return [UIColor colorWithWhite:0.0f alpha:1];
-    }
+    // Set the color to black
+    return [UIColor colorWithWhite:0.0f alpha:1];
 }
 @end

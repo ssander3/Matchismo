@@ -18,10 +18,11 @@
 
 - (void)chooseCardAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
-- (NSArray *)matchHistory;
 
 @property (nonatomic, readonly) NSInteger score;
 @property (nonatomic, readonly, getter=isInGame) BOOL inGame;
 @property (nonatomic) NSInteger matchMode;
+@property (nonatomic, readonly) NSArray *lastCardsChosen;
+@property (nonatomic, readonly) NSInteger lastScore;
 
 @end

@@ -15,7 +15,7 @@
 // protected
 // for subclasses
 - (Deck *)createDeck;    // abstract
-
+- (UIColor *)colorForCard:(Card *)card; //abstract
 
 @end
 
