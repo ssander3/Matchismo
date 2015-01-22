@@ -69,7 +69,7 @@
     {
         int indexValue = [self.historySlider value];
         if (indexValue < historyCount) {
-            self.history.text = [self.flipHistory objectAtIndex:indexValue];
+            self.history.attributedText = [self.flipHistory objectAtIndex:indexValue];
         }
     }
 }
@@ -91,26 +91,27 @@
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
     
     // Update History text
-    NSString *historyText = @"";
+    NSMutableAttributedString *historyText = [[NSMutableAttributedString alloc] initWithString:@""];
+    NSAttributedString *spaceString = [[NSAttributedString alloc] initWithString:@" "];
     
     if ([self.game.lastCardsChosen count]) {
-        NSMutableArray *cardContents = [NSMutableArray array];
         for (Card *card in self.game.lastCardsChosen) {
-            [cardContents addObject:card.contents];
+            [historyText appendAttributedString:[self attributedContentsOfCard:card]];
+            [historyText appendAttributedString:spaceString];
         }
-        historyText = [cardContents componentsJoinedByString:@" "];
     }
     
     // Build the history string based on the cards and score
     if (self.game.lastScore > 0) {
-        historyText = [NSString stringWithFormat:@"Matched %@ for %ld points!", historyText, (long)self.game.lastScore];
+        [historyText insertAttributedString:[[NSAttributedString alloc] initWithString:@"Matched "] atIndex:0];
+        [historyText appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"for %ld points!", (long)self.game.lastScore]]];
     }
     else if (self.game.lastScore < 0) {
-        historyText = [NSString stringWithFormat:@"%@ don't match! %ld points!", historyText, (long)self.game.lastScore];
+        [historyText appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"don't match! %ld points!", (long)self.game.lastScore]]];
     }
-    self.history.text = historyText;
+    self.history.attributedText = historyText;
     
-    if (![historyText isEqualToString:@""] && ![[self.flipHistory lastObject] isEqualToString:historyText]) {
+    if (![[historyText string] isEqualToString:@""] && ![[[self.flipHistory lastObject] string]isEqualToString:[historyText string]]) {
         [self.flipHistory addObject:historyText];
         // Update History Slider
         [self.historySlider setMaximumValue:self.flipHistory.count];
@@ -122,6 +123,12 @@
 {
     NSAttributedString *title  = [[NSAttributedString alloc] initWithString:card.isChosen ? card.contents : @""];
     return title;
+}
+
+- (NSAttributedString *)attributedContentsOfCard:(Card *)card
+{
+    NSAttributedString *cardContents = [[NSAttributedString alloc] initWithString:card.contents];
+    return cardContents;
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card

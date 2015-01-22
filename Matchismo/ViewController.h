@@ -17,6 +17,7 @@
 - (Deck *)createDeck;    // abstract
 
 - (NSAttributedString *)titleForCard:(Card *)card;
+- (NSAttributedString *)attributedContentsOfCard:(Card *)card;
 - (UIImage *)backgroundImageForCard:(Card *)card;
 - (void)updateUI;
 

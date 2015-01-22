@@ -62,6 +62,11 @@
     return [[NSMutableAttributedString alloc] initWithString:symbol attributes:attributes];
 }
 
+- (NSAttributedString *)attributedContentsOfCard:(Card *)card
+{
+    return [self titleForCard:card];
+}
+
 -(UIImage *)backgroundImageForCard:(Card *)card
 {
     return [UIImage imageNamed:card.isChosen ? @"setCardSelected" : @"setCard"];

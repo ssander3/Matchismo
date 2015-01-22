@@ -43,6 +43,28 @@
     return [[NSMutableAttributedString alloc] initWithString:title attributes:attributes];
 }
 
+-(NSAttributedString *)attributedContentsOfCard:(Card *)card
+{
+    NSString *title = @"?";
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
+    
+    if ([card isKindOfClass:[PlayingCard class]]) {
+        PlayingCard *playingCard = (PlayingCard *)card;
+        
+        title =  playingCard.contents;
+        
+        if ([title containsString:@"♦"] || [title containsString:@"♥"]) {
+            [attributes setObject:[UIColor redColor] forKey:NSForegroundColorAttributeName];
+        }
+        else
+        {
+            [attributes setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+        }
+    }
+    
+    return [[NSMutableAttributedString alloc] initWithString:title attributes:attributes];
+}
+
 /*
 #pragma mark - Navigation
 
