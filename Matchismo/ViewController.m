@@ -13,7 +13,6 @@
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *matchMode;
 @property (weak, nonatomic) IBOutlet UISlider *historySlider;
 @property (weak, nonatomic) IBOutlet UITextField *history;
 @property (strong, nonatomic) NSMutableArray *flipHistory;
@@ -28,7 +27,6 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initWithCardCount:[self.cardButtons count]
                                                   usingDeck:[self createDeck]];
-        _game.matchMode = self.matchMode.selectedSegmentIndex+1;
     }
     return _game;
 }
@@ -59,13 +57,9 @@
     // destroy the current game and update the UI
     self.flipHistory = nil;
     self.game = nil;
-    self.game.matchMode = self.matchMode.selectedSegmentIndex+1;
+    [self.historySlider setMaximumValue:self.flipHistory.count];
+    [self.historySlider setValue:self.flipHistory.count];
     [self updateUI];
-}
-
-- (IBAction)changeMatchMode:(UISegmentedControl *)sender
-{
-    self.game.matchMode = sender.selectedSegmentIndex+1;
 }
 
 - (IBAction)scrubHistory:(UISlider *)sender
@@ -84,15 +78,11 @@
 
 - (void)updateUI
 {
-    // Update Match Mode
-    self.matchMode.enabled = !self.game.isInGame;
-    
     // Update Cards
     for (UIButton *cardButton in self.cardButtons) {
         NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
         Card *card = [self.game cardAtIndex:cardButtonIndex];
-        [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
-        [cardButton setTitleColor:[self colorForCard:card] forState:UIControlStateNormal];
+        [cardButton setAttributedTitle:[self titleForCard:card] forState:UIControlStateNormal];
         [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
         cardButton.enabled = !card.isMatched;
     }
@@ -116,7 +106,7 @@
         historyText = [NSString stringWithFormat:@"Matched %@ for %ld points!", historyText, (long)self.game.lastScore];
     }
     else if (self.game.lastScore < 0) {
-        historyText = [NSString stringWithFormat:@"%@ don't match! %ld point penalty", historyText, (long)self.game.lastScore];
+        historyText = [NSString stringWithFormat:@"%@ don't match! %ld points!", historyText, (long)self.game.lastScore];
     }
     self.history.text = historyText;
     
@@ -128,19 +118,14 @@
     }
 }
 
-- (NSString *)titleForCard:(Card *)card
+- (NSAttributedString *)titleForCard:(Card *)card
 {
-    return card.isChosen ? card.contents : @"";
+    NSAttributedString *title  = [[NSAttributedString alloc] initWithString:card.isChosen ? card.contents : @""];
+    return title;
 }
 
 - (UIImage *)backgroundImageForCard:(Card *)card
 {
     return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
-}
-
-- (UIColor *)colorForCard:(Card *)card // If you need custom colors override this function
-{
-    // Set the color to black
-    return [UIColor colorWithWhite:0.0f alpha:1];
 }
 @end

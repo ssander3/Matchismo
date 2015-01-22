@@ -15,7 +15,10 @@
 // protected
 // for subclasses
 - (Deck *)createDeck;    // abstract
-- (UIColor *)colorForCard:(Card *)card; //abstract
+
+- (NSAttributedString *)titleForCard:(Card *)card;
+- (UIImage *)backgroundImageForCard:(Card *)card;
+- (void)updateUI;
 
 @end
 

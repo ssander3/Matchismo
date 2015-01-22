@@ -24,6 +24,15 @@
     return _cards;
 }
 
+- (NSInteger)matchMode
+{
+    Card *card = [self.cards firstObject];
+    if (_matchMode < card.numberOfMatchingCards) {
+        _matchMode = card.numberOfMatchingCards;
+    }
+    return _matchMode;
+}
+
 - (instancetype)initWithCardCount:(NSUInteger)count
                        usingDeck:(Deck *)deck
 {
@@ -78,7 +87,7 @@ static const int COST_TO_CHOOSE = 1;
             self.lastScore = 0;
             self.lastCardsChosen = [chosenCards arrayByAddingObject:card];
             // Do we have enough cards to try to match?
-            if (chosenCards.count == self.matchMode) {
+            if (chosenCards.count + 1 == self.matchMode) {
                 int matchScore = [card match:chosenCards];
                 if (matchScore) {
                     // Match found, score and take all cards out of play
