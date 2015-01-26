@@ -23,6 +23,7 @@
 		D291C5DD1A50BC3A0015E5D2 /* SetCard.m in Sources */ = {isa = PBXBuildFile; fileRef = D291C5DC1A50BC3A0015E5D2 /* SetCard.m */; };
 		D2AC0DFC1A564C530071D9CF /* SetCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AC0DFB1A564C530071D9CF /* SetCardViewController.m */; };
 		D2AC0E1A1A56526E0071D9CF /* SetCardDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = D2AC0E191A56526E0071D9CF /* SetCardDeck.m */; };
+		D2CB63C71A72DCA5005B0696 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2CB63C61A72DCA5005B0696 /* HistoryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,8 @@
 		D2AC0DFB1A564C530071D9CF /* SetCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardViewController.m; sourceTree = "<group>"; };
 		D2AC0E181A56526E0071D9CF /* SetCardDeck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetCardDeck.h; sourceTree = "<group>"; };
 		D2AC0E191A56526E0071D9CF /* SetCardDeck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetCardDeck.m; sourceTree = "<group>"; };
+		D2CB63C51A72DCA5005B0696 /* HistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		D2CB63C61A72DCA5005B0696 /* HistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,8 @@
 				610BC7EF1A3D207B00CA043D /* PlayingCardViewController.h */,
 				610BC7F01A3D207B00CA043D /* PlayingCardViewController.m */,
 				610833EC19DDC9E400E73F7B /* Main.storyboard */,
+				D2CB63C51A72DCA5005B0696 /* HistoryViewController.h */,
+				D2CB63C61A72DCA5005B0696 /* HistoryViewController.m */,
 				D2AC0DFA1A564C530071D9CF /* SetCardViewController.h */,
 				D2AC0DFB1A564C530071D9CF /* SetCardViewController.m */,
 				611BAAAB19DDDF500072419A /* Model */,
@@ -278,6 +283,7 @@
 				610833E519DDC9E400E73F7B /* main.m in Sources */,
 				D291C5DD1A50BC3A0015E5D2 /* SetCard.m in Sources */,
 				611BAAAE19DDE1530072419A /* PlayingCard.m in Sources */,
+				D2CB63C71A72DCA5005B0696 /* HistoryViewController.m in Sources */,
 				6154147419EA051C003DEF44 /* CardMatchingGame.m in Sources */,
 				61F5D45219E0BAFD0023A0E0 /* PlayingCardDeck.m in Sources */,
 				61F5D44F19E0B4F10023A0E0 /* Deck.m in Sources */,
@@ -409,6 +415,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -420,6 +427,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

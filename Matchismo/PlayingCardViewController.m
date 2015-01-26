@@ -65,6 +65,12 @@
     return [[NSMutableAttributedString alloc] initWithString:title attributes:attributes];
 }
 
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self updateUI];
+}
+
 /*
 #pragma mark - Navigation
 

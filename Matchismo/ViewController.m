@@ -8,14 +8,14 @@
 
 #import "ViewController.h"
 #import "CardMatchingGame.h"
+#import "HistoryViewController.h"
 
 @interface ViewController ()
 @property (strong, nonatomic) CardMatchingGame *game;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UISlider *historySlider;
-@property (weak, nonatomic) IBOutlet UITextField *history;
 @property (strong, nonatomic) NSMutableArray *flipHistory;
+@property (weak, nonatomic) IBOutlet UILabel *lastPlay;
 @end
 
 @implementation ViewController
@@ -57,19 +57,14 @@
     // destroy the current game and update the UI
     self.flipHistory = nil;
     self.game = nil;
-    [self.historySlider setMaximumValue:self.flipHistory.count];
-    [self.historySlider setValue:self.flipHistory.count];
     [self updateUI];
 }
 
-- (IBAction)scrubHistory:(UISlider *)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    NSUInteger historyCount = self.flipHistory.count;
-    if (historyCount)
-    {
-        int indexValue = [self.historySlider value];
-        if (indexValue < historyCount) {
-            self.history.attributedText = [self.flipHistory objectAtIndex:indexValue];
+    if ([segue.identifier isEqualToString:@"Show History"]) {
+        if ([segue.destinationViewController isKindOfClass:[HistoryViewController class]]) {
+            [segue.destinationViewController setHistory:self.flipHistory];
         }
     }
 }
@@ -109,13 +104,10 @@
     else if (self.game.lastScore < 0) {
         [historyText appendAttributedString:[[NSAttributedString alloc]initWithString:[NSString stringWithFormat:@"don't match! %ld points!", (long)self.game.lastScore]]];
     }
-    self.history.attributedText = historyText;
+    self.lastPlay.attributedText = historyText;
     
     if (![[historyText string] isEqualToString:@""] && ![[[self.flipHistory lastObject] string]isEqualToString:[historyText string]]) {
         [self.flipHistory addObject:historyText];
-        // Update History Slider
-        [self.historySlider setMaximumValue:self.flipHistory.count];
-        [self.historySlider setValue:self.flipHistory.count];
     }
 }
 
