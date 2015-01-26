@@ -31,7 +31,7 @@
         <scene sceneID="FOK-Y0-XMo">
             <objects>
                 <navigationController id="A86-Pk-VX9" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Set" id="StU-S1-zQ8"/>
+                    <tabBarItem key="tabBarItem" title="Set" image="setCard-Small" id="StU-S1-zQ8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="BZE-U2-vNY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1508,7 +1508,7 @@
                             <constraint firstItem="NkM-gy-xWh" firstAttribute="firstBaseline" secondItem="aD5-uy-Am8" secondAttribute="firstBaseline" id="zh2-Zu-ojO"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Playing Card" id="lnx-2h-BXo"/>
+                    <tabBarItem key="tabBarItem" title="Playing Card" image="playingCard-Small" id="lnx-2h-BXo"/>
                     <navigationItem key="navigationItem" id="RTs-jy-fUv">
                         <barButtonItem key="rightBarButtonItem" title="History" id="Nhg-2C-yuh">
                             <connections>
@@ -1612,6 +1612,8 @@
     </scenes>
     <resources>
         <image name="cardback" width="64" height="96"/>
+        <image name="playingCard-Small" width="29" height="29"/>
+        <image name="setCard-Small" width="29" height="29"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
