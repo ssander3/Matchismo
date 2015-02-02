@@ -21,5 +21,7 @@
 - (UIImage *)backgroundImageForCard:(Card *)card;
 - (void)updateUI;
 
+@property (strong, nonatomic) NSString *gameType;
+
 @end
 

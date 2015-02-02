@@ -19,6 +19,7 @@
 
 -(Deck *)createDeck
 {
+    self.gameType = @"Set Cards";
     return [[SetCardDeck alloc] init];
 }
 

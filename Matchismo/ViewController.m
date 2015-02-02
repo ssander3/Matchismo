@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "CardMatchingGame.h"
 #import "HistoryViewController.h"
+#import "GameResult.h"
 
 @interface ViewController ()
 @property (strong, nonatomic) CardMatchingGame *game;
@@ -16,6 +17,8 @@
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (strong, nonatomic) NSMutableArray *flipHistory;
 @property (weak, nonatomic) IBOutlet UILabel *lastPlay;
+
+@property (strong, nonatomic) GameResult *gameResult;
 @end
 
 @implementation ViewController
@@ -44,6 +47,15 @@
     return nil;
 }
 
+- (GameResult *)gameResult;
+{
+    if (!_gameResult) {
+        _gameResult = [[GameResult alloc] init];
+    }
+    _gameResult.gameType = self.gameType;
+    return _gameResult;
+}
+
 #pragma mark - IBActions
 
 - (IBAction)touchCardButton:(UIButton *)sender
@@ -57,6 +69,7 @@
     // destroy the current game and update the UI
     self.flipHistory = nil;
     self.game = nil;
+    self.gameResult = nil;
     [self updateUI];
 }
 
@@ -84,6 +97,7 @@
     
     // Update Score
     self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)self.game.score];
+    self.gameResult.score = self.game.score;
     
     // Update History text
     NSMutableAttributedString *historyText = [[NSMutableAttributedString alloc] initWithString:@""];
