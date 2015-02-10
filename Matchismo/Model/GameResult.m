@@ -29,7 +29,7 @@
     return [self.end timeIntervalSinceDate:self.start];
 }
 
-- (void)setScore:(int)score
+- (void)setScore:(NSInteger)score
 {
     _score = score;
     self.end = [NSDate date];
@@ -99,6 +99,11 @@
 {
     return [@(self.score) compare:@(result.score)];
     
+}
+
+- (NSComparisonResult)compareDate:(GameResult *)result
+{
+    return [self.end compare:result.end];
 }
 
 @end

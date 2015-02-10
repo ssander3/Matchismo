@@ -16,6 +16,22 @@
 
 @implementation GameResultsViewController
 
+#pragma mark - IBActions
+- (IBAction)sortByDate:(id)sender {
+    self.gameResults = [self.gameResults sortedArrayUsingSelector:@selector(compareDate:)];
+    [self updateUI];
+}
+
+- (IBAction)sortByScore:(id)sender {
+    self.gameResults = [self.gameResults sortedArrayUsingSelector:@selector(compareScore:)];
+    [self updateUI];
+}
+
+- (IBAction)sortByDuration:(id)sender {
+    self.gameResults = [self.gameResults sortedArrayUsingSelector:@selector(compareDuration:)];
+    [self updateUI];
+}
+
 #pragma mark - UI Update
 - (void)updateUI
 {
